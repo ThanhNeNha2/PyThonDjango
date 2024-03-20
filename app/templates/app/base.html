@@ -108,19 +108,21 @@
               <a class="nav-link disabled" aria-disabled="true">Liên Hệ</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
+          <form class="d-flex" role="search" method='POST' action={% url "search" %}>
+            {% csrf_token %}
             <input
               class="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              name='searched'
             />
             <button class="btn btn-outline-success" type="submit">
               Search
             </button>
           </form>
         </div>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-3 mb-lg-0">
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -129,21 +131,17 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              User 1
+             Account
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Trang cá nhân</a></li>
-              <li><a class="dropdown-item" href="#">Đơn hàng</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Thoát</a></li>
+              <li><a class="dropdown-item" href="#">Xin chao {{request.user}} </a></li>
+              <li><a class="dropdown-item" href="#">hihi </a></li>
+              <li><a class="dropdown-item" href="{% url "logout" %}">Logout</a></li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Đăng nhập</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Đăng ký</a>
-          </li>
+
+          
+          
         </ul>
         <div class='form-inline my-2 my-lg-0' style="display:flex;">
           <a href="{% url 'cart' %}"><img id='cart-icon' src='{% static "images/cart.png" %}'></a>
@@ -154,8 +152,10 @@
     <!-- Main -->
     {% block banner_slider %}  {% endblock banner_slider %}
     {% block main-content%} {% endblock main-content %}
-     {% block cart_content %} {% endblock cart_content %} 
-     {% block content_checkout %} {% endblock content_checkout %}
+    {% block cart_content %} {% endblock cart_content %} 
+    {% block content_checkout %} {% endblock content_checkout %}
+    {% block register %} {% endblock register %}
+    {% block search %} {% endblock search %}
     <!-- footer -->
     <footer
       class="container--fluid bg-success text-center fixed-bottom p-2 mt-5"
