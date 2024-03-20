@@ -95,10 +95,11 @@
                 Sản phẩm
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Sữa</a></li>
-                <li><a class="dropdown-item" href="#">Bỉm</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">Kem</a></li>
+                {% for i in categories %}
+                
+                <li><a class="dropdown-item" href="{% url "category" %}?category={{i.slug}}">{{i.name}}</a></li>
+                {% endfor %}
+               
               </ul>
             </li>
             <li class="nav-item">
@@ -156,6 +157,7 @@
     {% block content_checkout %} {% endblock content_checkout %}
     {% block register %} {% endblock register %}
     {% block search %} {% endblock search %}
+    {% block category %} {% endblock category %}
     <!-- footer -->
     <footer
       class="container--fluid bg-success text-center fixed-bottom p-2 mt-5"

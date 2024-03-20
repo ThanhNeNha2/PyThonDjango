@@ -49,6 +49,7 @@ def search(request):
   if request.method == 'POST':
     searched = request.POST["searched"]
     keys = Product.objects.filter(name__contains =searched)
+  # hien thi cart
   if request.user.is_authenticated:
     customer = request.user
     order,created = Order.objects.get_or_create(customer = customer,complete = False)
@@ -58,10 +59,26 @@ def search(request):
     items =  []
     order = {'get_cart_items': 0 , 'get_cart_total':0}
     cartItems= order['get_cart_items']
-  # hiển thị hàng trong data
-  product = Product.objects.all()
-  context={'products':product ,'cartItems':cartItems }
-  return render(request,'app/search.html',{"searched" : searched,"keys":keys,'products':product ,'cartItems':cartItems})
+  return render(request,'app/search.html',{"searched" : searched,"keys":keys,'cartItems':cartItems})
+
+
+# --------------
+def category(request):
+  categories = Category.objects.filter(is_sub = False)
+  active_category = request.GET.get('category','')
+  if active_category:
+    products = Product.objects.filter(category__slug = active_category )
+  if request.user.is_authenticated:
+    customer = request.user
+    order,created = Order.objects.get_or_create(customer = customer,complete = False)
+    items = order.orderitem_set.all()
+    cartItems= order.get_cart_items
+  else:
+    items =  []
+    order = {'get_cart_items': 0 , 'get_cart_total':0}
+    cartItems= order['get_cart_items']
+  context = {'categories':categories,'products' :products , 'active_category':active_category, 'cartItems':cartItems}
+  return render(request,'app/category.html', context)
 
 # --------------
 def home(request):
@@ -75,8 +92,10 @@ def home(request):
     order = {'get_cart_items': 0 , 'get_cart_total':0}
     cartItems= order['get_cart_items']
   # hiển thị hàng trong data
+  categories = Category.objects.filter(is_sub = False)
+  
   product = Product.objects.all()
-  context={'products':product ,'cartItems':cartItems }
+  context={'categories':categories ,'products':product ,'cartItems':cartItems  }
 
   return render(request,'app/home.html',context)  
 
