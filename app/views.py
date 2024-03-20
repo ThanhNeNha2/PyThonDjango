@@ -32,8 +32,7 @@ def loginPage(request):
       login(request,user)
       return redirect('home')
     else: 
-      messages.info(request,"mat khau khong dung "),
-     
+      messages.info(request,"mat khau khong dung"),
   context ={ "messagelogin":'Mật khẩu hoặc tên đăng nhập không đúng'}
   return render(request,'app/login.html',context)
 
@@ -41,7 +40,6 @@ def loginPage(request):
 def logOutPage(request):
   logout(request)
   return redirect('login')
-
 
 # --------------
 def search(request):
@@ -79,6 +77,23 @@ def category(request):
     cartItems= order['get_cart_items']
   context = {'categories':categories,'products' :products , 'active_category':active_category, 'cartItems':cartItems}
   return render(request,'app/category.html', context)
+
+
+# --------------
+def detail(request):
+  if request.user.is_authenticated:
+    customer = request.user
+    order,created = Order.objects.get_or_create(customer = customer,complete = False)
+    items = order.orderitem_set.all()
+    cartItems= order.get_cart_items
+  else:
+    items =  []
+    order = {'get_cart_items': 0 , 'get_cart_total':0}
+    cartItems= order['get_cart_items']
+  id = request.GET.get('id','')
+  products = Product.objects.filter(id=id)
+  context={'products' :products ,'items':items,'order':order,'cartItems':cartItems }
+  return render(request,'app/detail.html',context)
 
 # --------------
 def home(request):

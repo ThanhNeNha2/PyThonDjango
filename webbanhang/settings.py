@@ -78,8 +78,11 @@ WSGI_APPLICATION = 'webbanhang.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sitesale',
+        'USER': 'root',
+        'PASSWORD': '020903',
+        'HOST':'localhost',
     }
 }
 
