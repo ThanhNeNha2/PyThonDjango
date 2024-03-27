@@ -20,9 +20,7 @@ body{
     left: 0;
     z-index: 1;
 }
-.block-banner{
-    margin-top: 60px;
-}
+
  .owl-carousel .item:hover{
     /* border: 1px solid black; */
     transform : scale(1.1);
